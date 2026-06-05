@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Kitchen
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -60,7 +60,7 @@ fun KitchenVisionScreen(onBack: () -> Unit) {
                 title = { Text("KITCHEN VISION", style = MaterialTheme.typography.titleMedium.copy(letterSpacing = 2.sp)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -97,8 +97,8 @@ fun KitchenVisionScreen(onBack: () -> Unit) {
                                     )
                                     imageProxy.use { bitmap.copyPixelsFromBuffer(imageProxy.planes[0].buffer) }
                                     
-                                    // Adjust rotation if needed (simplified for now)
-                                    detectorHelper.detectLivestreamFrame(bitmap, imageProxy.info.timestamp)
+                                    // Fix: use imageInfo instead of info
+                                    detectorHelper.detectLivestreamFrame(bitmap, imageProxy.imageInfo.timestamp)
                                 }
                             }
 

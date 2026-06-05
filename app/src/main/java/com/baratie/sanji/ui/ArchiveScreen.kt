@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.baratie.sanji.model.MasterpieceRecord
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.foundation.verticalScroll
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +40,7 @@ fun ArchiveScreen(viewModel: ChefViewModel, onBack: () -> Unit) {
                 title = { Text("BARATIE LOGS", style = MaterialTheme.typography.titleMedium.copy(letterSpacing = 2.sp)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
@@ -167,6 +168,3 @@ fun MasterpieceThumbnail(record: MasterpieceRecord, onClick: () -> Unit) {
         }
     }
 }
-
-// Added missing import for verticalScroll
-import androidx.compose.foundation.verticalScroll

@@ -1,16 +1,18 @@
 package com.baratie.sanji.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -33,12 +35,12 @@ fun ProfileScreen(
                 title = { Text("CHEF ID", style = MaterialTheme.typography.titleMedium.copy(letterSpacing = 2.sp)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
                     IconButton(onClick = onOpenArchive) {
-                        Icon(Icons.Default.MenuBook, contentDescription = "Archive", tint = MaterialTheme.colorScheme.primary)
+                        Icon(Icons.AutoMirrored.Filled.MenuBook, contentDescription = "Archive", tint = MaterialTheme.colorScheme.primary)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
@@ -83,7 +85,7 @@ fun ProfileScreen(
             ) {
                 Text(
                     text = profile.rank.label.uppercase(),
-                    style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Black),
+                    style = MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
@@ -116,9 +118,9 @@ fun ProfileScreen(
                     
                     Spacer(modifier = Modifier.height(12.dp))
                     
-                    val progress = (profile.dishesCooked.toFloat() / (profile.rank.threshold.plus(10))).coerceAtMost(1f)
+                    val progress = (profile.dishesCooked.toFloat() / (profile.rank.threshold + 10)).coerceAtMost(1f)
                     LinearProgressIndicator(
-                        progress = progress,
+                        progress = { progress },
                         modifier = Modifier.fillMaxWidth().height(12.dp).clip(RoundedCornerShape(6.dp)),
                         color = MaterialTheme.colorScheme.primary,
                         trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
@@ -134,5 +136,13 @@ fun ProfileScreen(
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
             )
         }
+    }
+}
+
+@Composable
+fun StatItem(label: String, value: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+        Text(text = value, style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold))
     }
 }

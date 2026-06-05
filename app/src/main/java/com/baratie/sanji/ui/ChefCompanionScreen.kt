@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -52,8 +53,9 @@ fun ChefCompanionScreen(
 
     // Speak when Sanji responds
     LaunchedEffect(chefState) {
-        if (chefState is ChefState.Success) {
-            tts?.speak(chefState.response, TextToSpeech.QUEUE_FLUSH, null, null)
+        val state = chefState
+        if (state is ChefState.Success) {
+            tts?.speak(state.response, TextToSpeech.QUEUE_FLUSH, null, null)
         }
     }
 
@@ -63,7 +65,7 @@ fun ChefCompanionScreen(
                 title = { Text("BARATIE MENTOR", style = MaterialTheme.typography.titleMedium.copy(letterSpacing = 2.sp)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {

@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -37,7 +38,7 @@ fun ProCookScreen(viewModel: ChefViewModel, onBack: () -> Unit) {
                 title = { Text(recipe?.title?.uppercase() ?: "ACTIVE SERVICE", style = MaterialTheme.typography.titleMedium.copy(letterSpacing = 2.sp)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -249,12 +250,13 @@ fun StepTimer(seconds: Int) {
     val remainingSeconds = timeLeft % 60
     val timeString = "%02d:%02d".format(minutes, remainingSeconds)
 
+    // Pulse when running (using tween for infiniteRepeatable compatibility)
     val infiniteTransition = rememberInfiniteTransition(label = "Pulse")
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = if (isRunning) 1.05f else 1f,
         animationSpec = infiniteRepeatable(
-            animation = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow),
+            animation = tween(1000, easing = LinearOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "PulseScale"

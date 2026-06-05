@@ -13,11 +13,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Restaurant
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -56,7 +53,7 @@ fun MasterpieceGalleryScreen(viewModel: ChefViewModel, onBack: () -> Unit) {
                 title = { Text("MASTERPIECE GALLERY", style = MaterialTheme.typography.titleMedium.copy(letterSpacing = 2.sp)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -146,7 +143,7 @@ fun MasterpieceGalleryScreen(viewModel: ChefViewModel, onBack: () -> Unit) {
                         shape = CircleShape,
                         modifier = Modifier.size(80.dp)
                     ) {
-                        Icon(Icons.Default.Camera, contentDescription = "Capture", modifier = Modifier.size(36.dp), tint = Color.White)
+                        Icon(Icons.Default.PhotoCamera, contentDescription = "Capture", modifier = Modifier.size(36.dp), tint = Color.White)
                     }
                 }
             } else {
@@ -192,7 +189,8 @@ fun MasterpieceGalleryScreen(viewModel: ChefViewModel, onBack: () -> Unit) {
                                     )
                                     Text("Analyzing the plating... don't hold your breath.", fontStyle = FontStyle.Italic)
                                 } else if (chefState is ChefState.Success) {
-                                    val critique = (chefState as ChefState.Success).response
+                                    val state = chefState as ChefState.Success
+                                    val critique = state.response
                                     Text(
                                         text = critique,
                                         style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 28.sp),
