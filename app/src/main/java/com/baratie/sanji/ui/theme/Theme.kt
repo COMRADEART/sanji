@@ -39,7 +39,6 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color(0xFF020617),
     onSurface = Color(0xFF020617)
 )
-...
 
 @Composable
 fun SanjiCookbookTheme(

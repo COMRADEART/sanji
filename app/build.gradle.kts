@@ -29,7 +29,6 @@ android {
 
         buildConfigField("String", "GEMINI_API_KEY", "\"${localProperties.getProperty("apiKey")}\"")
     }
-...
 
     buildTypes {
         release {
