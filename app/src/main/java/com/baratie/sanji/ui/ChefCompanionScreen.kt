@@ -32,7 +32,8 @@ fun ChefCompanionScreen(
     onBack: () -> Unit,
     onOpenVision: () -> Unit,
     onStartCooking: () -> Unit,
-    onOpenGallery: () -> Unit
+    onOpenGallery: () -> Unit,
+    onOpenProfile: () -> Unit
 ) {
     val chatHistory by viewModel.chatHistory.collectAsState()
     val chefState by viewModel.chefState.collectAsState()
@@ -66,6 +67,9 @@ fun ChefCompanionScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = onOpenProfile) {
+                        Icon(Icons.Default.Person, contentDescription = "Chef ID", tint = MaterialTheme.colorScheme.primary)
+                    }
                     IconButton(onClick = onOpenGallery) {
                         Icon(Icons.Default.Star, contentDescription = "Masterpiece Gallery", tint = MaterialTheme.colorScheme.primary)
                     }

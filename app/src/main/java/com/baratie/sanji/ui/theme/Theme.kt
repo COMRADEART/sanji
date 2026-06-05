@@ -20,15 +20,26 @@ private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFFD97706), // Baratie Gold
     secondary = Color(0xFFDC2626), // Diable Crimson
     tertiary = Color(0xFF0F172A), // Navy
-    background = Color(0xFF020617) // Deep Navy
+    background = Color(0xFF020617), // Deep Navy
+    surface = Color(0xFF0F172A),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color(0xFFF8FAFC),
+    onSurface = Color(0xFFF8FAFC)
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF0F172A),
     secondary = Color(0xFFDC2626),
     tertiary = Color(0xFFD97706),
-    background = Color(0xFFF8FAFC)
+    background = Color(0xFFF8FAFC),
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color(0xFF020617),
+    onSurface = Color(0xFF020617)
 )
+...
 
 @Composable
 fun SanjiCookbookTheme(

@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.baratie.sanji.util.ImageShareHelper
 import java.util.concurrent.Executors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -190,22 +192,36 @@ fun MasterpieceGalleryScreen(viewModel: ChefViewModel, onBack: () -> Unit) {
                                     )
                                     Text("Analyzing the plating... don't hold your breath.", fontStyle = FontStyle.Italic)
                                 } else if (chefState is ChefState.Success) {
+                                    val critique = (chefState as ChefState.Success).response
                                     Text(
-                                        text = (chefState as ChefState.Success).response,
+                                        text = critique,
                                         style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 28.sp),
                                         textAlign = TextAlign.Center
                                     )
                                     
                                     Spacer(modifier = Modifier.height(24.dp))
                                     
-                                    Button(
-                                        onClick = { capturedBitmap = null },
-                                        modifier = Modifier.fillMaxWidth().height(56.dp),
-                                        shape = RoundedCornerShape(12.dp)
-                                    ) {
-                                        Icon(Icons.Default.Restaurant, contentDescription = null)
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                        Text("COOK ANOTHER MASTERPIECE", fontWeight = FontWeight.Bold)
+                                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                                        Button(
+                                            onClick = { capturedBitmap = null },
+                                            modifier = Modifier.weight(1f).height(56.dp),
+                                            shape = RoundedCornerShape(12.dp)
+                                        ) {
+                                            Text("NEW DISH", fontWeight = FontWeight.Bold)
+                                        }
+                                        
+                                        OutlinedButton(
+                                            onClick = { 
+                                                ImageShareHelper.shareMasterpiece(context, capturedBitmap!!, critique)
+                                            },
+                                            modifier = Modifier.weight(1f).height(56.dp),
+                                            shape = RoundedCornerShape(12.dp),
+                                            border = androidx.compose.foundation.BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                                        ) {
+                                            Icon(Icons.Default.Share, contentDescription = null)
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text("GRAND LINE", fontWeight = FontWeight.Bold)
+                                        }
                                     }
                                 }
                             }

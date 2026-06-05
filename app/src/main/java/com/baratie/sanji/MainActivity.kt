@@ -53,7 +53,8 @@ class MainActivity : ComponentActivity() {
                                 viewModel.startCooking(viewModel.risottoRecipe)
                                 currentScreen = "cook" 
                             },
-                            onOpenGallery = { currentScreen = "gallery" }
+                            onOpenGallery = { currentScreen = "gallery" },
+                            onOpenProfile = { currentScreen = "profile" }
                         )
                         "vision" -> KitchenVisionScreen(
                             onBack = { currentScreen = "chat" }
@@ -65,6 +66,15 @@ class MainActivity : ComponentActivity() {
                         "gallery" -> MasterpieceGalleryScreen(
                             viewModel = viewModel,
                             onBack = { currentScreen = "chat" }
+                        )
+                        "profile" -> ProfileScreen(
+                            viewModel = viewModel,
+                            onBack = { currentScreen = "chat" },
+                            onOpenArchive = { currentScreen = "archive" }
+                        )
+                        "archive" -> ArchiveScreen(
+                            viewModel = viewModel,
+                            onBack = { currentScreen = "profile" }
                         )
                     }
                 }

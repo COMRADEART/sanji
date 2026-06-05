@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.baratie.sanji.BuildConfig
 import com.baratie.sanji.model.CookStep
 import com.baratie.sanji.model.Recipe
+import com.baratie.sanji.model.UserProfile
+import com.baratie.sanji.model.MasterpieceRecord
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import java.util.Calendar
+import java.util.UUID
 
 data class ChatMessage(
     val role: String,
@@ -52,6 +55,12 @@ class ChefViewModel : ViewModel() {
 
     private val _activeRecipe = MutableStateFlow<Recipe?>(null)
     val activeRecipe: StateFlow<Recipe?> = _activeRecipe
+
+    private val _userProfile = MutableStateFlow(UserProfile("Chef Guest"))
+    val userProfile: StateFlow<UserProfile> = _userProfile
+
+    private val _masterpieceLogs = MutableStateFlow<List<MasterpieceRecord>>(emptyList())
+    val masterpieceLogs: StateFlow<List<MasterpieceRecord>> = _masterpieceLogs
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash",
@@ -104,7 +113,7 @@ class ChefViewModel : ViewModel() {
         _activeRecipe.value = recipe
         viewModelScope.launch {
             while (_activeRecipe.value != null) {
-                delay(15000) // Every 15 seconds, Luffy might try something
+                delay(15000)
                 triggerChaos()
             }
         }
@@ -122,10 +131,18 @@ class ChefViewModel : ViewModel() {
         }
     }
 
+    fun incrementDishCount() {
+        _userProfile.value = _userProfile.value.copy(
+            dishesCooked = _userProfile.value.dishesCooked + 1,
+            sanjiRapport = _userProfile.value.sanjiRapport + 5
+        )
+    }
+
     fun finishCooking() {
         viewModelScope.launch {
             _chaosState.value = KitchenChaosState.LUFFY_EATING
             delay(6000)
+            incrementDishCount()
             _activeRecipe.value = null
             _chaosState.value = KitchenChaosState.IDLE
         }
@@ -186,6 +203,16 @@ class ChefViewModel : ViewModel() {
                 val response = generativeModel.generateContent(inputContent)
                 val responseText = response.text ?: "I'm speechless... and not in a good way. Try again."
                 
+                // Save to logs
+                val record = MasterpieceRecord(
+                    id = UUID.randomUUID().toString(),
+                    title = _activeRecipe.value?.title ?: "Masterpiece Dish",
+                    photo = bitmap,
+                    critique = responseText,
+                    timestamp = System.currentTimeMillis()
+                )
+                _masterpieceLogs.value += record
+
                 _chefState.value = ChefState.Success(responseText)
                 _chatHistory.value += ChatMessage("model", "[Masterpiece Critique]: $responseText")
             } catch (e: Exception) {
